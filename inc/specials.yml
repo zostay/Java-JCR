@@ -1,0 +1,27 @@
+javax.jcr.SimpleCredentials: 
+  new: |-
+    sub new {
+        my $class = shift;
+        my $user = shift;
+        my $password = shift;
+
+        my $charArray = Java::JCR::PerlUtils->charArray($password);
+        
+        return bless {
+            obj => Java::JCR::javax::jcr::SimpleCredentials->new($user, $charArray),
+        }, $class;
+    }
+
+javax.jcr.Session:
+  import_xml: |-
+    sub import_xml {
+        my $self = shift;
+        my $path = shift;
+        my $handle = shift;
+        my $behavior = shift;
+
+        my $input_stream = Java::JCR::JavaUtils::input_stream($handle);
+
+        $self->{obj}->importXML($path, $input_stream, $behavior);
+    }
+            
