@@ -23,6 +23,8 @@ use File::Basename;
 use File::Path;
 use YAML;
 
+our $VERSION = '0.02';
+
 our $PACKAGE_NAME = "Java::JCR";
 
 my $config_file = $ARGV[0] || 'inc/packages.yml';
@@ -88,6 +90,8 @@ use warnings;
 
 use base qw( $isa_str );
 
+our \$VERSION = '$VERSION';
+
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -141,7 +145,14 @@ END_OF_PERL
             else {
 
                 my $return_line;
-                if (defined $config->{$return_type}) {
+                if ($return_type =~ /^Array:(.*)$/ && defined $config->{$1}) {
+                    $return_line
+                        = 'Java::JCR::Base::_process_return($result, "'
+                            .$return_type.'", "'
+                            .$config->{$1}{perl_package}.'")';
+                }
+
+                elsif (defined $config->{$return_type}) {
                     $return_line 
                         = 'Java::JCR::Base::_process_return($result, "'
                             .$return_type.'", "'
@@ -178,6 +189,13 @@ END_OF_PERL
             else {
 
                 my $return_line;
+                if ($return_type =~ /^Array:(.*)$/ && defined $config->{$1}) {
+                    $return_line
+                        = 'Java::JCR::Base::_process_return($result, "'
+                            .$return_type.'", "'
+                            .$config->{$1}{perl_package}.'")';
+                }
+
                 if (defined $config->{$return_type}) {
                     $return_line 
                         = 'Java::JCR::Base::_process_return($result, "'

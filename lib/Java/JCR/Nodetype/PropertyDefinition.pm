@@ -13,6 +13,8 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Nodetype::ItemDefinition );
 
+our $VERSION = '0.02';
+
 use Inline (
     Java => 'STUDY',
     STUDY => [],

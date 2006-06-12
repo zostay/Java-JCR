@@ -11,10 +11,8 @@ my %jars = (
         => "$maven_repo/org.apache.jackrabbit/jars/jackrabbit-core-1.0.jar",
     'jcr-1.0.jar' 
         => 'http://www.day.com/maven/jsr170/jars/jcr-1.0.jar',
-    'slf4j-log4j12-1.0.jar' 
-        => "$maven_repo/org.slf4j/jars/slf4j-log4j12-1.0.jar",
-    'log4j-1.2.8.jar' 
-        => "$maven_repo/log4j/jars/log4j-1.2.8.jar",
+    'slf4j-jdk14-1.0.1.jar' 
+        => "$maven_repo/org.slf4j/jars/slf4j-jdk14-1.0.1.jar",
     'commons-collections-3.1.jar' 
         => "$maven_repo/commons-collections/jars/commons-collections-3.1.jar",
     'xercesImpl-2.6.2.jar' 
