@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Nodetype::ItemDefinition );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -41,7 +41,7 @@ sub get_default_values {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getDefaultValues(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.Value", "Java::JCR::Value");
 }
 
 sub get_on_parent_version {

@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Nodetype::ItemDefinition );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -55,7 +55,7 @@ sub get_required_primary_types {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getRequiredPrimaryTypes(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
 sub is_auto_created {

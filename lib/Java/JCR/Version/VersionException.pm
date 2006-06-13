@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::RepositoryException );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',

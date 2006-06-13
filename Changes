@@ -1,5 +1,14 @@
 Java::JCR Revision History
 
+0.03    2006-06-12 20:31    Andrew Sterling Hanenkamp
+
+    * Fixed a bug in inc/package-generator.pl that resulted in the new array
+      handling code not being included when necessary.
+    * Added unit tests to find this bug and to cover the most common tasks.
+    * Added use strict and use warnings to the examples.
+    * Added a test for errors in the POD.
+    * Added POD to Java::JCR::Jackrabbit.
+
 0.02    2006-06-12 07:36    Andrew Sterling Hanenkamp
 
     * Switched Jar files to slf4j-jdk14-1.0.1.jar from slf4j-log4j12-1.0.jar and

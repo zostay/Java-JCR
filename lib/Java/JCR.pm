@@ -6,7 +6,7 @@ use warnings;
 use Carp;
 use File::Spec;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 NAME
 
@@ -81,6 +81,8 @@ becomes this iin Perl:
   my $property = $node->get_property("myProperty");
 
 this includes abbreviations as well, so C<importXML()> and <getNodeByUUID()> in Java are C<import_xml()> and C<get_node_by_uuid()> in Perl.
+
+=back
 
 =head1 IMPLEMENTATION
 

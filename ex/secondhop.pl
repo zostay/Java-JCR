@@ -7,6 +7,9 @@
 #
 # -- Sterling, 2006-06-11
 
+use strict;
+use warnings;
+
 use Java::JCR;
 use Java::JCR::Jackrabbit;
 
@@ -21,7 +24,7 @@ my $world = $hello->add_node('world');
 $world->set_property('message', 'Hello, World!');
 $session->save;
 
-$node = $root->get_node('hello/world');
+my $node = $root->get_node('hello/world');
 print $node->get_path(), "\n";
 print $node->get_property('message')->get_string, "\n";
 

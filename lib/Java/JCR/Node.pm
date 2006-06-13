@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Item );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -321,7 +321,7 @@ sub get_mixin_node_types {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getMixinNodeTypes(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
 sub is_new {

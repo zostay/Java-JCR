@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -27,7 +27,7 @@ sub get_values {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getValues(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.Value", "Java::JCR::Value");
 }
 
 sub get_value {

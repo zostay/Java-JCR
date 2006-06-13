@@ -7,6 +7,9 @@
 #
 # -- Sterling, 2006-06-11
 
+use strict;
+use warnings;
+
 use Java::JCR;
 use Java::JCR::Nodetype;
 use Java::JCR::Jackrabbit;

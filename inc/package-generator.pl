@@ -23,7 +23,7 @@ use File::Basename;
 use File::Path;
 use YAML;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 our $PACKAGE_NAME = "Java::JCR";
 
@@ -196,7 +196,7 @@ END_OF_PERL
                             .$config->{$1}{perl_package}.'")';
                 }
 
-                if (defined $config->{$return_type}) {
+                elsif (defined $config->{$return_type}) {
                     $return_line 
                         = 'Java::JCR::Base::_process_return($result, "'
                             .$return_type.'", "'

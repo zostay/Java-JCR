@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Node );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -55,7 +55,7 @@ sub get_predecessors {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getPredecessors(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.version.Version", "Java::JCR::Version::Version");
 }
 
 sub get_name {
@@ -132,7 +132,7 @@ sub get_successors {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getSuccessors(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.version.Version", "Java::JCR::Version::Version");
 }
 
 sub set_property {
@@ -349,7 +349,7 @@ sub get_mixin_node_types {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getMixinNodeTypes(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
 sub is_new {

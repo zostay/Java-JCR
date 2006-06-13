@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use Inline (
     Java => 'STUDY',
@@ -48,14 +48,14 @@ sub get_declared_supertypes {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getDeclaredSupertypes(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
 sub get_child_node_definitions {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getChildNodeDefinitions(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeDefinition", "Java::JCR::Nodetype::NodeDefinition");
 }
 
 sub get_primary_item_name {
@@ -69,7 +69,7 @@ sub get_declared_child_node_definitions {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getDeclaredChildNodeDefinitions(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeDefinition", "Java::JCR::Nodetype::NodeDefinition");
 }
 
 sub is_mixin {
@@ -83,7 +83,7 @@ sub get_declared_property_definitions {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getDeclaredPropertyDefinitions(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.PropertyDefinition", "Java::JCR::Nodetype::PropertyDefinition");
 }
 
 sub can_set_property {
@@ -97,14 +97,14 @@ sub get_supertypes {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getSupertypes(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
 sub get_property_definitions {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
     my $result = $self->{obj}->getPropertyDefinitions(@args);
-    return $result;
+    return Java::JCR::Base::_process_return($result, "Array:javax.jcr.nodetype.PropertyDefinition", "Java::JCR::Nodetype::PropertyDefinition");
 }
 
 sub has_orderable_child_nodes {
