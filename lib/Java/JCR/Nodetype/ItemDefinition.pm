@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,42 +27,60 @@ study_classes(['javax.jcr.nodetype.ItemDefinition'], 'Java::JCR');
 sub is_protected {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isProtected(@args);
+
+    my $result = eval { $self->{obj}->isProtected(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_on_parent_version {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getOnParentVersion(@args);
+
+    my $result = eval { $self->{obj}->getOnParentVersion(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_name {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getName(@args);
+
+    my $result = eval { $self->{obj}->getName(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_mandatory {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isMandatory(@args);
+
+    my $result = eval { $self->{obj}->isMandatory(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_auto_created {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isAutoCreated(@args);
+
+    my $result = eval { $self->{obj}->isAutoCreated(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_declaring_node_type {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDeclaringNodeType(@args);
+
+    my $result = eval { $self->{obj}->getDeclaringNodeType(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.nodetype.NodeType", "Java::JCR::Nodetype::NodeType");
 }
 
@@ -95,6 +114,10 @@ The package to use is L<Java::JCR::Nodetype::ItemDefinition>, rather than I<java
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

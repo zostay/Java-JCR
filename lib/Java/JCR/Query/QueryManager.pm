@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,21 +27,30 @@ study_classes(['javax.jcr.query.QueryManager'], 'Java::JCR');
 sub get_query {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getQuery(@args);
+
+    my $result = eval { $self->{obj}->getQuery(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.query.Query", "Java::JCR::Query::Query");
 }
 
 sub create_query {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->createQuery(@args);
+
+    my $result = eval { $self->{obj}->createQuery(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.query.Query", "Java::JCR::Query::Query");
 }
 
 sub get_supported_query_languages {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getSupportedQueryLanguages(@args);
+
+    my $result = eval { $self->{obj}->getSupportedQueryLanguages(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
@@ -74,6 +84,10 @@ The package to use is L<Java::JCR::Query::QueryManager>, rather than I<javax.jcr
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

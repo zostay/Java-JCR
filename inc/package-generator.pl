@@ -23,7 +23,7 @@ use File::Basename;
 use File::Path;
 use YAML;
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
 our $PACKAGE_NAME = "Java::JCR";
 
@@ -48,6 +48,9 @@ while (my ($java_package, $package_config) = each %$config) {
 }
 
 while (my ($java_package, $package_config) = each %$config) {
+    # We don't need no stinkin' exceptions
+    next if $java_package =~ /Exception$/;
+
     my $perl_package = $package_config->{perl_package};
     my $inline_package = $package_config->{inline_package};
 
@@ -92,6 +95,7 @@ use base qw( $isa_str );
 
 our \$VERSION = '$VERSION';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -112,8 +116,11 @@ END_OF_PERL
 sub new {
     my \$class = shift;
 
+    my \$obj = eval { $inline_package->new(\@_) };
+    if (\$@) { my \$e = Java::JCR::Exception->new(\$@); croak \$e }
+
     return bless { 
-        obj => $inline_package->new(\@_),
+        obj => \$obj,
     }, \$class;
 }
 
@@ -166,7 +173,10 @@ END_OF_PERL
                 print $fh <<"END_OF_PERL";
 sub $perl_method_name {
     my \@args = Java::JCR::Base::_process_args(\@_);
-    my \$result = ${inline_package}::$method_name(\@args);
+
+    my \$result = eval { ${inline_package}::$method_name(\@args) };
+    if (\$@) { my \$e = Java::JCR::Exception->new(\$@); croak \$e }
+
     return $return_line;
 }
 
@@ -212,7 +222,10 @@ END_OF_PERL
 sub $perl_method_name {
     my \$self = shift;
     my \@args = Java::JCR::Base::_process_args(\@_);
-    my \$result = \$self->{obj}->$method_name(\@args);
+
+    my \$result = eval { \$self->{obj}->$method_name(\@args) };
+    if (\$@) { my \$e = Java::JCR::Exception->new(\$@); croak \$e }
+
     return $return_line;
 }
 
@@ -256,6 +269,10 @@ The package to use is L<$perl_package>, rather than I<$java_package>.
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

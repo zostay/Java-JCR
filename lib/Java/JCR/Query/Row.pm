@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,14 +27,20 @@ study_classes(['javax.jcr.query.Row'], 'Java::JCR');
 sub get_values {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getValues(@args);
+
+    my $result = eval { $self->{obj}->getValues(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "Array:javax.jcr.Value", "Java::JCR::Value");
 }
 
 sub get_value {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getValue(@args);
+
+    my $result = eval { $self->{obj}->getValue(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Value", "Java::JCR::Value");
 }
 
@@ -67,6 +74,10 @@ The package to use is L<Java::JCR::Query::Row>, rather than I<javax.jcr.query.Ro
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

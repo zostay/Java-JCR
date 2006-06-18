@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,91 +27,130 @@ study_classes(['javax.jcr.Workspace'], 'Java::JCR');
 sub get_session {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getSession(@args);
+
+    my $result = eval { $self->{obj}->getSession(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Session", "Java::JCR::Session");
 }
 
 sub move {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->move(@args);
+
+    my $result = eval { $self->{obj}->move(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_accessible_workspace_names {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getAccessibleWorkspaceNames(@args);
+
+    my $result = eval { $self->{obj}->getAccessibleWorkspaceNames(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_name {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getName(@args);
+
+    my $result = eval { $self->{obj}->getName(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_import_content_handler {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getImportContentHandler(@args);
+
+    my $result = eval { $self->{obj}->getImportContentHandler(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_node_type_manager {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNodeTypeManager(@args);
+
+    my $result = eval { $self->{obj}->getNodeTypeManager(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.nodetype.NodeTypeManager", "Java::JCR::Nodetype::NodeTypeManager");
 }
 
 sub import_xml {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->importXML(@args);
+
+    my $result = eval { $self->{obj}->importXML(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub restore {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->restore(@args);
+
+    my $result = eval { $self->{obj}->restore(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub copy {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->copy(@args);
+
+    my $result = eval { $self->{obj}->copy(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_query_manager {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getQueryManager(@args);
+
+    my $result = eval { $self->{obj}->getQueryManager(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.query.QueryManager", "Java::JCR::Query::QueryManager");
 }
 
 sub clone {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->clone(@args);
+
+    my $result = eval { $self->{obj}->clone(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_observation_manager {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getObservationManager(@args);
+
+    my $result = eval { $self->{obj}->getObservationManager(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.observation.ObservationManager", "Java::JCR::Observation::ObservationManager");
 }
 
 sub get_namespace_registry {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNamespaceRegistry(@args);
+
+    my $result = eval { $self->{obj}->getNamespaceRegistry(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.NamespaceRegistry", "Java::JCR::NamespaceRegistry");
 }
 
@@ -144,6 +184,10 @@ The package to use is L<Java::JCR::Workspace>, rather than I<javax.jcr.Workspace
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

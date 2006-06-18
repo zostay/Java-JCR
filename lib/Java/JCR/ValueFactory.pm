@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -25,9 +26,21 @@ study_classes(['javax.jcr.ValueFactory'], 'Java::JCR');
 
 sub create_value {
     my $self = shift;
-    my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->createValue(@args);
-    return Java::JCR::Base::_process_return($result, "javax.jcr.Value", "Java::JCR::Value");
+    my ($value) = @_;
+
+    my @args;
+    if (Java::JCR::Calendar::_perl_date_has_conversion($value)) {
+        @args = (Java::JCR::Calendar::_perl_date_to_java_calendar($value));
+    }
+
+    else {
+        @args = Java::JCR::Base::_process_args(@_);
+    }
+
+    my $result = eval { $self->{obj}->createValue(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
+    return Java::JCR::Base::_process_return($result, 'javax.jcr.Value', 'Java::JCR::Value');
 }
 
 1;
@@ -60,6 +73,10 @@ The package to use is L<Java::JCR::ValueFactory>, rather than I<javax.jcr.ValueF
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

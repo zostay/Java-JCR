@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,21 +27,30 @@ study_classes(['javax.jcr.Session'], 'Java::JCR');
 sub move {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->move(@args);
+
+    my $result = eval { $self->{obj}->move(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_attribute {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getAttribute(@args);
+
+    my $result = eval { $self->{obj}->getAttribute(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_import_content_handler {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getImportContentHandler(@args);
+
+    my $result = eval { $self->{obj}->getImportContentHandler(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
@@ -54,180 +64,254 @@ sub import_xml {
 
     $self->{obj}->importXML($path, $input_stream, $behavior);
 }
-        
 
 sub remove_lock_token {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->removeLockToken(@args);
+
+    my $result = eval { $self->{obj}->removeLockToken(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_live {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isLive(@args);
+
+    my $result = eval { $self->{obj}->isLive(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_namespace_prefix {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNamespacePrefix(@args);
+
+    my $result = eval { $self->{obj}->getNamespacePrefix(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub add_lock_token {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->addLockToken(@args);
+
+    my $result = eval { $self->{obj}->addLockToken(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub save {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->save(@args);
+
+    my $result = eval { $self->{obj}->save(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_namespace_prefixes {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNamespacePrefixes(@args);
+
+    my $result = eval { $self->{obj}->getNamespacePrefixes(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub item_exists {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->itemExists(@args);
+
+    my $result = eval { $self->{obj}->itemExists(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub refresh {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->refresh(@args);
+
+    my $result = eval { $self->{obj}->refresh(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_node_by_uuid {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNodeByUUID(@args);
+
+    my $result = eval { $self->{obj}->getNodeByUUID(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Node", "Java::JCR::Node");
 }
 
 sub get_user_id {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getUserID(@args);
+
+    my $result = eval { $self->{obj}->getUserID(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_attribute_names {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getAttributeNames(@args);
+
+    my $result = eval { $self->{obj}->getAttributeNames(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub logout {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->logout(@args);
+
+    my $result = eval { $self->{obj}->logout(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_namespace_uri {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNamespaceURI(@args);
+
+    my $result = eval { $self->{obj}->getNamespaceURI(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_workspace {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getWorkspace(@args);
+
+    my $result = eval { $self->{obj}->getWorkspace(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Workspace", "Java::JCR::Workspace");
 }
 
 sub get_repository {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getRepository(@args);
+
+    my $result = eval { $self->{obj}->getRepository(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Repository", "Java::JCR::Repository");
 }
 
 sub get_lock_tokens {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getLockTokens(@args);
+
+    my $result = eval { $self->{obj}->getLockTokens(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub has_pending_changes {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->hasPendingChanges(@args);
+
+    my $result = eval { $self->{obj}->hasPendingChanges(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub export_system_view {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->exportSystemView(@args);
+
+    my $result = eval { $self->{obj}->exportSystemView(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_item {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getItem(@args);
+
+    my $result = eval { $self->{obj}->getItem(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Item", "Java::JCR::Item");
 }
 
 sub get_root_node {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getRootNode(@args);
+
+    my $result = eval { $self->{obj}->getRootNode(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Node", "Java::JCR::Node");
 }
 
 sub set_namespace_prefix {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->setNamespacePrefix(@args);
+
+    my $result = eval { $self->{obj}->setNamespacePrefix(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub impersonate {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->impersonate(@args);
+
+    my $result = eval { $self->{obj}->impersonate(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Session", "Java::JCR::Session");
 }
 
 sub get_value_factory {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getValueFactory(@args);
+
+    my $result = eval { $self->{obj}->getValueFactory(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.ValueFactory", "Java::JCR::ValueFactory");
 }
 
 sub export_document_view {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->exportDocumentView(@args);
+
+    my $result = eval { $self->{obj}->exportDocumentView(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub check_permission {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->checkPermission(@args);
+
+    my $result = eval { $self->{obj}->checkPermission(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
@@ -261,6 +345,10 @@ The package to use is L<Java::JCR::Session>, rather than I<javax.jcr.Session>.
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

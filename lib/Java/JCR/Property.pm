@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base Java::JCR::Item );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,196 +27,278 @@ study_classes(['javax.jcr.Property'], 'Java::JCR');
 sub get_session {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getSession(@args);
+
+    my $result = eval { $self->{obj}->getSession(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Session", "Java::JCR::Session");
 }
 
 sub remove {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->remove(@args);
+
+    my $result = eval { $self->{obj}->remove(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_same {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isSame(@args);
+
+    my $result = eval { $self->{obj}->isSame(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_values {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getValues(@args);
+
+    my $result = eval { $self->{obj}->getValues(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "Array:javax.jcr.Value", "Java::JCR::Value");
 }
 
 sub get_name {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getName(@args);
+
+    my $result = eval { $self->{obj}->getName(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub set_value {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->setValue(@args);
+
+    my $result = eval { $self->{obj}->setValue(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_boolean {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getBoolean(@args);
+
+    my $result = eval { $self->{obj}->getBoolean(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_date {
-    my $self = shift;
-    my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDate(@args);
-    return $result;
+    my ($self, $class) = @_;
+
+    my $result = $self->{obj}->getDate();
+
+    return Java::JCR::Calendar::_java_calendar_to_perl_date($result, $class);
 }
 
 sub get_ancestor {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getAncestor(@args);
+
+    my $result = eval { $self->{obj}->getAncestor(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Item", "Java::JCR::Item");
 }
 
 sub get_path {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getPath(@args);
+
+    my $result = eval { $self->{obj}->getPath(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_type {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getType(@args);
+
+    my $result = eval { $self->{obj}->getType(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub save {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->save(@args);
+
+    my $result = eval { $self->{obj}->save(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub refresh {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->refresh(@args);
+
+    my $result = eval { $self->{obj}->refresh(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_long {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getLong(@args);
+
+    my $result = eval { $self->{obj}->getLong(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_node {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getNode(@args);
+
+    my $result = eval { $self->{obj}->getNode(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Node", "Java::JCR::Node");
 }
 
 sub get_lengths {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getLengths(@args);
+
+    my $result = eval { $self->{obj}->getLengths(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_double {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDouble(@args);
+
+    my $result = eval { $self->{obj}->getDouble(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_node {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isNode(@args);
+
+    my $result = eval { $self->{obj}->isNode(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_stream {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getStream(@args);
+
+    my $result = eval { $self->{obj}->getStream(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub accept {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->accept(@args);
+
+    my $result = eval { $self->{obj}->accept(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub is_new {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isNew(@args);
+
+    my $result = eval { $self->{obj}->isNew(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_value {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getValue(@args);
+
+    my $result = eval { $self->{obj}->getValue(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Value", "Java::JCR::Value");
 }
 
 sub get_length {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getLength(@args);
+
+    my $result = eval { $self->{obj}->getLength(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_parent {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getParent(@args);
+
+    my $result = eval { $self->{obj}->getParent(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.Node", "Java::JCR::Node");
 }
 
 sub is_modified {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->isModified(@args);
+
+    my $result = eval { $self->{obj}->isModified(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_string {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getString(@args);
+
+    my $result = eval { $self->{obj}->getString(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_depth {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDepth(@args);
+
+    my $result = eval { $self->{obj}->getDepth(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_definition {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDefinition(@args);
+
+    my $result = eval { $self->{obj}->getDefinition(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.nodetype.PropertyDefinition", "Java::JCR::Nodetype::PropertyDefinition");
 }
 
@@ -249,6 +332,10 @@ The package to use is L<Java::JCR::Property>, rather than I<javax.jcr.Property>.
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

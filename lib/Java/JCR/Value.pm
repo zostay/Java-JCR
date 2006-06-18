@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,49 +27,68 @@ study_classes(['javax.jcr.Value'], 'Java::JCR');
 sub get_stream {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getStream(@args);
+
+    my $result = eval { $self->{obj}->getStream(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_long {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getLong(@args);
+
+    my $result = eval { $self->{obj}->getLong(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_boolean {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getBoolean(@args);
+
+    my $result = eval { $self->{obj}->getBoolean(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_string {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getString(@args);
+
+    my $result = eval { $self->{obj}->getString(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_double {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDouble(@args);
+
+    my $result = eval { $self->{obj}->getDouble(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_date {
-    my $self = shift;
-    my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getDate(@args);
-    return $result;
+    my ($self, $class) = @_;
+
+    my $result = $self->{obj}->getDate();
+
+    return Java::JCR::Calendar::_java_calendar_to_perl_date($result, $class);
 }
 
 sub get_type {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getType(@args);
+
+    my $result = eval { $self->{obj}->getType(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
@@ -102,6 +122,10 @@ The package to use is L<Java::JCR::Value>, rather than I<javax.jcr.Value>.
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

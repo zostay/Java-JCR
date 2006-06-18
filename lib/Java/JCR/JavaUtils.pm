@@ -65,7 +65,12 @@ class GlobInputStream extends InputStream {
 }
 
 END_OF_JAVA
-    STUDY => ['java.io.InputStream'],
+    STUDY => [ qw(
+        java.io.InputStream
+        java.util.Calendar 
+        java.util.TimeZone
+        java.util.Locale
+    ) ],
     PACKAGE => 'Java::JCR',
 );
 use Inline::Java qw( cast );
@@ -82,6 +87,74 @@ sub input_stream {
     $glob_val =~ s/^\*//;
     my $glob_caller = Java::JCR::GlobCaller->new($glob_val);
     return Java::JCR::GlobInputStream->new($glob_caller);
+}
+
+sub calendar_to_hash {
+    my ($calendar) = @_;
+
+    $calendar    = cast('java.util.Calendar', $calendar);
+    my $timezone = cast('java.util.TimeZone', $calendar->getTimeZone());
+
+    my $tz_offset = $timezone;
+
+    return {
+        year       => $calendar->get($Java::JCR::java::util::Calendar::YEAR),
+        month      => $calendar->get($Java::JCR::java::util::Calendar::MONTH),
+        day        => $calendar->get(
+                          $Java::JCR::java::util::Calendar::DAY_OF_MONTH),
+        hour       => $calendar->get($Java::JCR::java::util::Calendar::HOUR),
+        minute     => $calendar->get($Java::JCR::java::util::Calendar::MINUTE),
+        second     => $calendar->get($Java::JCR::java::util::Calendar::SECOND),
+        nanosecond => $calendar->get(
+                          $Java::JCR::java::util::Calendar::MILLISECOND) 
+                          * 1_000_000,
+        timezone   => $timezone->getID(),
+        lenient    => 0,
+    };
+}
+
+sub hash_to_calendar {
+    my ($hash) = @_;
+
+    my $calendar;
+    if (defined $hash->{timezone} && defined $hash->{locale}) {
+        my ($language, $country, $variant) = split /_/, $hash->{locale};
+        $calendar = Java::JCR::java::util::Calendar->getInstance(
+            Java::JCR::java::util::TimeZone->getTimeZone($hash->{timezone}),
+            Java::JCR::java::util::Locale->new($language, $country, $variant),
+        );
+    }
+
+    elsif (defined $hash->{timezone}) {
+        $calendar = Java::JCR::java::util::Calendar->getInstance(
+            Java::JCR::java::util::TimeZone->getTimeZone($hash->{timezone}),
+        );
+    }
+
+    elsif (defined $hash->{locale}) {
+        my ($language, $country, $variant) = split /_/, $hash->{locale};
+        $calendar = Java::JCR::java::util::Calendar->getInstance(
+            Java::JCR::java::util::Locale->new($language, $country, $variant),
+        );
+    }
+
+    else {
+        $calendar = Java::JCR::java::util::Calendar->getInstance();
+    }
+
+    $calendar = cast('java.util.Calendar', $calendar);
+
+    $calendar->setLenient($hash->{lenient}) if defined $hash->{lenient};
+
+    $calendar->set($Java::JCR::java::util::Calendar::YEAR, $hash->{year});
+    $calendar->set($Java::JCR::java::util::Calendar::MONTH, $hash->{month});
+    $calendar->set($Java::JCR::java::util::Calendar::DAY_OF_MONTH, 
+        $hash->{day});
+    $calendar->set($Java::JCR::java::util::Calendar::HOUR, $hash->{hour});
+    $calendar->set($Java::JCR::java::util::Calendar::MINUTE, $hash->{minute});
+    $calendar->set($Java::JCR::java::util::Calendar::SECOND, $hash->{second});
+
+    return $calendar;
 }
 
 =head1 AUTHOR

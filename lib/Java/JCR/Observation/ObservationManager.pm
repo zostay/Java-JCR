@@ -13,8 +13,9 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
+use Carp;
 use Inline (
     Java => 'STUDY',
     STUDY => [],
@@ -26,21 +27,30 @@ study_classes(['javax.jcr.observation.ObservationManager'], 'Java::JCR');
 sub remove_event_listener {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->removeEventListener(@args);
+
+    my $result = eval { $self->{obj}->removeEventListener(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub add_event_listener {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->addEventListener(@args);
+
+    my $result = eval { $self->{obj}->addEventListener(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return $result;
 }
 
 sub get_registered_event_listeners {
     my $self = shift;
     my @args = Java::JCR::Base::_process_args(@_);
-    my $result = $self->{obj}->getRegisteredEventListeners(@args);
+
+    my $result = eval { $self->{obj}->getRegisteredEventListeners(@args) };
+    if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
+
     return Java::JCR::Base::_process_return($result, "javax.jcr.observation.EventListenerIterator", "Java::JCR::Observation::EventListenerIterator");
 }
 
@@ -74,6 +84,10 @@ The package to use is L<Java::JCR::Observation::ObservationManager>, rather than
 All method names have been changed from Java-style C<camelCase()> to Perl-style C<lower_case()>. 
 
 Thus, if the function were named C<getName()> in the Java API, it will be named C<get_name()> in this API. As another example, C<nextEventListener()> in the Java API will be C<next_event_listener()> in this API.
+
+=item *
+
+Handle exceptions just like typical Perl. L<Java::JCR::Exception> takes care of making sure that works as expected.
 
 =back
 

@@ -1,5 +1,25 @@
 Java::JCR Revision History
 
+0.05    2006-06-17 21:21    Andrew Sterling Hanenkamp
+
+    * Added the Java::JCR::Calendar class for handling Java-to-Perl and
+    * Perl-to-Java date conversions.
+    * Added built-in support for DateTime and Class::Date classes when using any
+    * JCR method that returns a date or takes a date as an argument.
+    * Added support for allowing the end-user to add custom conversions to use
+    * other date classes instead of just those built-in.
+    * Added t/07-jackrabbit-calendar.t t test the new date support.
+
+0.04    2006-06-16 20:19    Andrew Sterling Hanenkamp
+
+    * Added the Java::JCR::Exception class for handling exceptions.
+    * Updated inc/package-generator.pl to use the new exception class.
+    * Added t/06-jackrabbit-exception.t to test the new exception class.
+    * Altered inc/package-generator.pl so that it does not generate any class
+      ending with "Exception".
+    * All classes ending with "Exception" (other than Java::JCR::Exception) have
+      been removed.
+
 0.03    2006-06-12 20:31    Andrew Sterling Hanenkamp
 
     * Fixed a bug in inc/package-generator.pl that resulted in the new array
