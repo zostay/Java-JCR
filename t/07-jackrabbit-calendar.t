@@ -79,3 +79,5 @@ SKIP: {
 
 $node->remove;
 $root->save;
+
+$session->logout;

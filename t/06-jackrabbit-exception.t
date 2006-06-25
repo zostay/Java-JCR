@@ -28,3 +28,5 @@ ok($e);
 #diag("Exception: $e");
 isa_ok($e, 'Java::JCR::Exception');
 ok("$e");
+
+$session->logout;

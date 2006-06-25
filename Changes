@@ -1,5 +1,15 @@
 Java::JCR Revision History
 
+0.06    2006-06-25 14:52    Andrew Sterling Hanenkamp
+
+    * Added register_node_types() to Java::JCR::Jackrabbit to allow for very
+      simple node type registration.
+    * Added t/08-jackrabbit-nodetypes.t and t/nodetypes.cnd to test the new node
+      type registration functionality.
+    * Updated a few of the Jackrabbit tests to make sure they call logout() on
+      the session when finished to make sure the repository gets shutdown
+      properly.
+
 0.05    2006-06-17 21:21    Andrew Sterling Hanenkamp
 
     * Added the Java::JCR::Calendar class for handling Java-to-Perl and
