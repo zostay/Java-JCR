@@ -5,6 +5,10 @@ Java::JCR Revision History
     * [rt.cpan.org #20758] FIXED: Static methods work correctly now.
     * [rt.cpan.org #20767] FIXED: Changed calendar routines so that they use the
       HOUR_OF_DAY constant rather than HOUR so that dates work correctly.
+    * Added t/09-jackrabbit-timezone.t to better test time zone handling and
+      reveal [rt.cpan.org #20767].
+    * Added t/10-property-type.t to test constants and such and to identify
+      [rt.cpan.org #20758].
 
 0.06    2006-06-25 14:52    Andrew Sterling Hanenkamp
 
