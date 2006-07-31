@@ -1,5 +1,11 @@
 Java::JCR Revision History
 
+0.07    2006-07-30 22:48    Andrew Sterling Hanenkamp
+
+    * [rt.cpan.org #20758] FIXED: Static methods work correctly now.
+    * [rt.cpan.org #20767] FIXED: Changed calendar routines so that they use the
+      HOUR_OF_DAY constant rather than HOUR so that dates work correctly.
+
 0.06    2006-06-25 14:52    Andrew Sterling Hanenkamp
 
     * Added register_node_types() to Java::JCR::Jackrabbit to allow for very

@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 use Carp;
 use Inline (
@@ -46,18 +46,20 @@ study_classes(['javax.jcr.PropertyType'], 'Java::JCR');
 *TYPENAME_UNDEFINED = *Java::JCR::javax::jcr::PropertyType::TYPENAME_UNDEFINED;
 
 sub name_from_value {
+    my $class = shift;
     my @args = Java::JCR::Base::_process_args(@_);
 
-    my $result = eval { Java::JCR::javax::jcr::PropertyType::nameFromValue(@args) };
+    my $result = eval { Java::JCR::javax::jcr::PropertyType->nameFromValue(@args) };
     if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
 
     return $result;
 }
 
 sub value_from_name {
+    my $class = shift;
     my @args = Java::JCR::Base::_process_args(@_);
 
-    my $result = eval { Java::JCR::javax::jcr::PropertyType::valueFromName(@args) };
+    my $result = eval { Java::JCR::javax::jcr::PropertyType->valueFromName(@args) };
     if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
 
     return $result;

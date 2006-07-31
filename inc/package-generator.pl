@@ -23,7 +23,7 @@ use File::Basename;
 use File::Path;
 use YAML;
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 our $PACKAGE_NAME = "Java::JCR";
 
@@ -172,9 +172,10 @@ END_OF_PERL
 
                 print $fh <<"END_OF_PERL";
 sub $perl_method_name {
+    my \$class = shift;
     my \@args = Java::JCR::Base::_process_args(\@_);
 
-    my \$result = eval { ${inline_package}::$method_name(\@args) };
+    my \$result = eval { ${inline_package}->$method_name(\@args) };
     if (\$@) { my \$e = Java::JCR::Exception->new(\$@); croak \$e }
 
     return $return_line;

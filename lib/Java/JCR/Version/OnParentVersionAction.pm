@@ -13,7 +13,7 @@ use warnings;
 
 use base qw( Java::JCR::Base );
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 use Carp;
 use Inline (
@@ -38,18 +38,20 @@ study_classes(['javax.jcr.version.OnParentVersionAction'], 'Java::JCR');
 *ACTIONNAME_ABORT = *Java::JCR::javax::jcr::version::OnParentVersionAction::ACTIONNAME_ABORT;
 
 sub name_from_value {
+    my $class = shift;
     my @args = Java::JCR::Base::_process_args(@_);
 
-    my $result = eval { Java::JCR::javax::jcr::version::OnParentVersionAction::nameFromValue(@args) };
+    my $result = eval { Java::JCR::javax::jcr::version::OnParentVersionAction->nameFromValue(@args) };
     if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
 
     return $result;
 }
 
 sub value_from_name {
+    my $class = shift;
     my @args = Java::JCR::Base::_process_args(@_);
 
-    my $result = eval { Java::JCR::javax::jcr::version::OnParentVersionAction::valueFromName(@args) };
+    my $result = eval { Java::JCR::javax::jcr::version::OnParentVersionAction->valueFromName(@args) };
     if ($@) { my $e = Java::JCR::Exception->new($@); croak $e }
 
     return $result;

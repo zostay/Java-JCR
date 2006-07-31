@@ -3,7 +3,7 @@ package Java::JCR::JavaUtils;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -102,7 +102,8 @@ sub calendar_to_hash {
         month      => $calendar->get($Java::JCR::java::util::Calendar::MONTH),
         day        => $calendar->get(
                           $Java::JCR::java::util::Calendar::DAY_OF_MONTH),
-        hour       => $calendar->get($Java::JCR::java::util::Calendar::HOUR),
+        hour       => $calendar->get(
+                          $Java::JCR::java::util::Calendar::HOUR_OF_DAY),
         minute     => $calendar->get($Java::JCR::java::util::Calendar::MINUTE),
         second     => $calendar->get($Java::JCR::java::util::Calendar::SECOND),
         nanosecond => $calendar->get(
@@ -150,7 +151,8 @@ sub hash_to_calendar {
     $calendar->set($Java::JCR::java::util::Calendar::MONTH, $hash->{month});
     $calendar->set($Java::JCR::java::util::Calendar::DAY_OF_MONTH, 
         $hash->{day});
-    $calendar->set($Java::JCR::java::util::Calendar::HOUR, $hash->{hour});
+    $calendar->set($Java::JCR::java::util::Calendar::HOUR_OF_DAY, 
+        $hash->{hour});
     $calendar->set($Java::JCR::java::util::Calendar::MINUTE, $hash->{minute});
     $calendar->set($Java::JCR::java::util::Calendar::SECOND, $hash->{second});
 
